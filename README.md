@@ -1,23 +1,11 @@
-# Nextra Docs Template 
+# Haenu Docs
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+생성한 공용 문서를 저장하고 공유하는 스토리지
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
-
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
-
-## Quick Start
-
-Click the button to clone this repository and deploy it on Vercel:
-
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
-
-## Local Development
-
-First, run `pnpm i` to install the dependencies.
-
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
+[https://docs.haenu.com](https://docs.haenu.com)
 
 ## License
 
-This project is licensed under the MIT License.
+모든 문서는 [CC-BY-SA-4.0](https://github.com/dokdo2013/haenu-docs/blob/main/LICENSE)에 따라 배포됩니다.
+
+단, 본 License는 레포지토리 관리자인 [@dokdo2013](https://github.com/dokdo2013)이 생성한 문서에만 적용되며, 이외에 인용 또는 첨부파일 목적으로 업로드된 파일에는 적용되지 않습니다.
