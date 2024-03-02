@@ -1,0 +1,118 @@
+# [스터디 3주차] TypeScript
+
+- 주제 : 자유주제 발표
+- 일시 : 2022년 3월 10일 ~ 4월 7일
+
+## ES6 문법 먼저 알아보기
+
+### 변수 선언 : const와 let
+
+```jsx
+let name = "abc";
+const age = 1;
+
+function person() {
+  name = 1;
+  age = 1;
+  if (name == 1) {
+    // const gender = 'male';
+    var gender = "female";
+  }
+  console.log(gender);
+}
+```
+
+### 화살표 함수 (Arrow Function)
+
+```jsx
+function add(x, y) {
+  return x + y;
+}
+
+const add2 = (x, y) => {
+  return x + y;
+};
+
+const empty = () => {
+  return 0;
+};
+
+const print = (message) => {
+  return message;
+};
+```
+
+### 기본 매개 변수 (Default parameters) [링크](https://babeljs.io/)
+
+```jsx
+const test = (name, age = 2) => {
+  return 0;
+};
+```
+
+### 구조 분해 할당 및 확산 연산자 (Spread Operator)
+
+```jsx
+const person = {
+  name: "name",
+  age: 23,
+  height: 160,
+};
+
+let name = person.name;
+let age = person.age;
+let height = person.height;
+```
+
+```jsx
+const person = {
+  name: "name",
+  age: 23,
+  height: 160,
+};
+
+let { name, age, height } = person;
+let { name2, ...elseData } = person;
+```
+
+# Typescript 알아보기
+
+### 변수의 종류
+
+- number, string, boolean, Array, Object
+
+### 함수 적어보기
+
+```tsx
+function add(a: number, b: number, c: number): number {
+  return a + b + c;
+}
+```
+
+### Interface
+
+```tsx
+interface addNumbers {
+  a: number;
+  b: number;
+  c: number;
+}
+
+function add(numbers: addNumbers) {
+  return numbers.a + numbers.b + numbers.c;
+}
+```
+
+```tsx
+console.log(
+  add({
+    a: 1,
+    b: 2,
+    c: 3,
+  })
+);
+```
+
+### React TypeScript Example
+
+[https://react.vlpt.us/using-typescript/02-ts-react-basic.html](https://react.vlpt.us/using-typescript/02-ts-react-basic.html)
