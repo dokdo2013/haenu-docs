@@ -1,4 +1,6 @@
 {
   "typescript": "TypeScript",
-  "redis": "Redis"
+  "redis": "Redis",
+  "elastic-beanstalk": "Elastic Beanstalk",
+  "osi-layer-load-balancer": "OSI 7 Layer & Load Balancer"
 }

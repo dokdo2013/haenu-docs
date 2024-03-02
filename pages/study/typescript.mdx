@@ -7,7 +7,7 @@
 
 ### 변수 선언 : const와 let
 
-```jsx
+```ts showLineNumbers copy filename="Typescript"
 let name = "abc";
 const age = 1;
 
@@ -24,7 +24,7 @@ function person() {
 
 ### 화살표 함수 (Arrow Function)
 
-```jsx
+```ts showLineNumbers copy filename="Typescript"
 function add(x, y) {
   return x + y;
 }
@@ -44,7 +44,7 @@ const print = (message) => {
 
 ### 기본 매개 변수 (Default parameters) [링크](https://babeljs.io/)
 
-```jsx
+```ts showLineNumbers copy filename="Typescript"
 const test = (name, age = 2) => {
   return 0;
 };
@@ -52,7 +52,7 @@ const test = (name, age = 2) => {
 
 ### 구조 분해 할당 및 확산 연산자 (Spread Operator)
 
-```jsx
+```ts showLineNumbers copy filename="Typescript"
 const person = {
   name: "name",
   age: 23,
@@ -64,7 +64,7 @@ let age = person.age;
 let height = person.height;
 ```
 
-```jsx
+```ts showLineNumbers copy filename="Typescript"
 const person = {
   name: "name",
   age: 23,
@@ -83,7 +83,7 @@ let { name2, ...elseData } = person;
 
 ### 함수 적어보기
 
-```tsx
+```ts showLineNumbers copy filename="Typescript"
 function add(a: number, b: number, c: number): number {
   return a + b + c;
 }
@@ -91,7 +91,7 @@ function add(a: number, b: number, c: number): number {
 
 ### Interface
 
-```tsx
+```ts showLineNumbers copy filename="Typescript"
 interface addNumbers {
   a: number;
   b: number;
@@ -103,7 +103,7 @@ function add(numbers: addNumbers) {
 }
 ```
 
-```tsx
+```ts showLineNumbers copy filename="Typescript"
 console.log(
   add({
     a: 1,
