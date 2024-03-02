@@ -2,7 +2,7 @@ import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 
 const config: DocsThemeConfig = {
-  logo: <span>Haenu Docs</span>,
+  logo: <span className="font-bold text-xl">Haenu Docs</span>,
   project: {
     link: "https://github.com/dokdo2013/haenu-docs",
   },
