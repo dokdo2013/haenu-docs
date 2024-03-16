@@ -1,5 +1,8 @@
 {
   "index": "Introduction",
-  "meetup": "Meetup",
-  "study": "Study"
+  "hufs-gsece": "HUFS GSECE",
+  "book-review": "Book Review",
+  "meetup": "Meetup Note",
+  "study": "Study Note",
+  "toolbox": "Toolbox"
 }

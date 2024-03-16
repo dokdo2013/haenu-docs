@@ -1,0 +1,310 @@
+import { Callout } from "nextra/components";
+
+# Chapter 1. 컴퓨터 네트워크와 인터넷
+
+<Callout>2024년 3월 6일 (수) 18:30 ~ 20:00</Callout>
+
+## 들어가보자
+
+### 인터넷이란 무엇인가?
+
+- 인터넷을 구성하는 요소들로 살펴보기 (HW적인) : 1장에서는 4가지 구성요소 (Host, Packet switches, Communication links, Networks) 로 네트워크를 설명하고 있음
+- 분산 애플리케이션에 서비스를 제공하는 인프라스트럭쳐로 살펴보기 (SW적인) : 내가 앱을 만들면 서버를 만들어야 하는데, 이 서버를 어떻게 만들어야 하는지에 대한 내용 (계층상에서는 Application Layer에 해당)
+  - 응용 서비스를 만들고자 할 때 데이터가 필요함. 어디서 가져와보면 좋을까? - 공공데이터 포털 (data.go.kr) 등을 활용하면 좋음
+
+### 프로토콜이란 무엇인가?
+
+한 학기 내내 여러가지 프로토콜에 대해 접하게 될 것임
+
+**프로토콜이란?** 개체 간에 이루어지는 데이터 통신을 제어하는 규칙들의 집합
+
+- 프로토콜의 주요 요소 3가지
+  - Syntax : 데이터의 형식 (ex. IP라면 IP의 형식, 헤더 구성 등)
+  - Semantics : 데이터의 의미
+  - Timing : 데이터의 순서, 속도 등
+- TCP/IP Layer는 5가지로 나눔. 어떤 Protocol이 있는지?
+  - Application Layer : E-mail, Web, FTP, Telnet, ...
+  - Transport Layer : TCP, UDP
+  - Network Layer : IP, routing protocols
+  - Link Layer : Ethernet, WiFi
+  - Physical Layer
+
+이번 학기에서는 위 3개 레이어에 대해 다룰 예정
+
+## Inroduction
+
+**Chapter Goal** : Get "feel", "big picture" - introduction to terminology
+
+### 인터넷 : 구성요소 (a nuts and bolts)
+
+- Hosts : end systems (외곽에 있는 장치들)
+  - 5개의 계층을 모두 다 가지고 있음. 응용 서비스들이 동작하고 있음
+- Packet Switches : forward packets (패킷을 전달하는 장치들)
+  - 라우터, 스위치 등
+  - 패킷은? chunks of data
+- Communication Links : fiber, copper, radio, satellite
+  - 전송률(throughput) / 대역폭(bandwidth) 등을 고려해야 함
+- Networks : collection of devices and links
+
+거의 대부분의 장치들이 인터넷을 통해 연결되어 있음 (ex. IP카메라, 게이밍 디바이스, AR 장비, 심지어 자동차까지)
+
+Internet에서 `I` 는 대문자로 표현해야 함. 심지어 문장 중간에 들어가더라도
+
+### 인터넷 표준
+
+- RFC : 표준화된 문서들에 부여되는 문서 번호
+- [IETF](https://www.ietf.org/standards)
+
+RFC 문서를 보면 정말 건조하고 재미없고 불친절하게 쓰여 있음. 하지만 이게 표준이기 떄문에 이걸 따라야 함
+
+서버랑 클라이언트가 소켓을 통해서 네트워크에 접속하고 받고 함 - 이거는 2장에서 이야기함
+
+### 프로토콜이란?
+
+- 뭔가 사람들이 정한 규칙/규약
+- 프로토콜의 주요 요소
+  - Syntax : 데이터의 형식
+  - Semantics : 데이터의 의미
+  - Timing : 데이터의 순서, 속도 등
+
+네트워크를 3가지로 접근함
+
+- Edge
+- Access Network
+
+### Access networks and physical media
+
+어떻게 Edge Host를 네트워크에 연결하기 위한 방법 - Access Network (ex. WiFi, Ethernet, DSL, Cable, Fiber)
+
+- 가장 전통적인 Access Network 구성법 : DSL (Digital Subscriber Line) : 전화선 가지고 인터넷을 접속하는 것.
+  - 당시에는 전화선의 품질이 별로 안 좋아서 전화국 반경 2km 정도까지만 망을 구축했는데, 이 망을 가지고 인터넷 접속을 함. (음성 신호와 데이터를 하나의 라인을 사용)
+  - DSLAM이라는 장비가 있는데 이건 DSL 을 통해서 들어오는 신호를 전화/데이터로 분리하여 전화는 전화 네트워크로, 데이터는 ISP로 보내는 역할
+- Cable : 케이블 TV 네트워크를 사용하는 것.
+  - Cable Headend : 케이블 네트워크에서의 DSLAM 역할. 중계 장치 역할이라고 보면 됨. TV 신호나 인터넷 신호 등을 받아서 각각의 네트워크로 보내주는 역할. 케이블 네트워크에서는 콘텐츠를 Delivery하기 위해서 매우 중요하다.
+  - Cable에서는 하나의 케이블을 여러 집들이 공유하고 있음.
+  - FDM (Frequency Division Multiplexing) : 주파수를 나눠서 여러 채널을 만들어서 여러 채널을 동시에 전송하는 방식 (ex. 저주파는 TV, 고주파는 데이터 -> **왜?**)
+  - DOCSIS (Data Over Cable Service Interface Specification) : 케이블 네트워크에서 데이터를 전송하기 위한 표준 (여기에 보면 100mbps, 200mbps 이정도 수준으로 나와있음) - 그래서 기가단위로 가려면 광케이블로 가야함
+- HFC (Hybrid Fiber Coax) : 케이블 네트워크에서는 케이블을 통해서 집에 전달하고, 집 안에서는 광섬유로 전달함. (케이블은 광섬유로 전환되어서 집에 전달됨)
+
+### Home Networks
+
+홈 네트워크는 복합적인 구성을 가지고 있음. (ex. WiFi, Ethernet, ...)
+
+보통 '공유기'라고 불리는 장비가 네트워크에 접속할 수 있도록 하는 모든 장비를 포함 - AP, Router, Modem 등
+
+- WLAN (Wireless LAN) : 보통 WiFi를 말함. 802.11이라는 표준을 따르고 있음. 거리는 100ft(30m) 정도, 속도는 100Mbps 내외
+- 802.11a/b/g/n/ac/ax : 각각의 표준에 따라서 속도, 주파수 대역 등이 다름
+
+저거보다 더 큰 영역을 차지하는게 Wide-area cellular network (ex. LTE, 5G) - 이동통신 기반의 네트워크 (이건 6장 정도에서 다룸)
+
+4g 넘어오면서 음성/데이터를 하나로 통합함
+
+데이터 센터도 하나의 Access Networks 부류에 속한다 (ex. Amazon Case - 전자 상거래를 위한 각종 페이지들 / 아마존의 데이터를 처리하기 위한 병렬 컴퓨팅 / 퍼블릭 클라우드 서비스 (AWS) 제공)
+
+우리가 결국 인터넷을 쓸 때 최종적을 사용하는 프로토콜은 HTTP인데, 이 프로토콜을 계속해서 개선하기 위해서 구글이 열심히 하고 있음. (ex. QUIC)
+
+## Network Core
+
+라우터들의 집합 - 라우터가 어떻게 데이터를 처리하는가?
+
+라우터들이 하는 일을 크게 두 가지로 나누어보면 Packet Switching과 Circuit Switching이 있는데, 여기서는 Packet Switching에 대해서만 다룸
+
+### Packet Switching
+
+패킷 스위칭을 수행하는 장치들은 라우터, 스위치 등이 있음
+
+Two key network-core functions
+
+- Forwarding : move packets from router's input to appropriate router output
+  - 패킷을 받아서 어느 쪽으로 내보내야 목적지로 도착할 수 있을까? 를 판단하는 것. (목적지 주소를 보고 가려면 어떻게 해야할까?)
+  - 그걸 판단하는 Table이 있을건데, 이걸 어떻게 만들어야 할까? (Routing이 이걸 만드는 것)
+- Routing : determine route taken by packets from source to destination
+  - 라우팅은 라우터가 함
+  - 라우터들끼리 정보를 주고 받으면서 라우팅 프로토콜/알고리즘을 통해서 패킷을 어디로 보내야할지 결정함
+  - 그걸 **라우팅 테이블**이라고 함
+
+<Callout>2024년 3월 13일 (수) 18:30 ~ 20:00</Callout>
+
+### Packet-switching : store-and-forward
+
+패킷이 가령 1500바이트라고 하면, 라인을 타고 쭉 들어올건데,
+
+**store-and-forward** vs **cut-through**
+
+- Packet-Switching : 데이터가 들어오면, 데이터가 다 들어올 때까지 기다렸다가, 데이터가 다 들어오면 판단해서 어디로 보낼지 결정함 (store-and-forward)
+- Cut-Through : 데이터가 특정 길이로 들어온다고 하면, 앞 부분에 어디로 가야할지에 대한 정보가 있음. 그 정보를 보고 판단해서 어디로 보낼지 바로 결정함 (뒤에가 아직 안 들어오더라도)
+
+### **S - Router - D**
+
+**S -> Router** D(Trans) 전송 지연 - 라인에 올리는 시간 = 100kbps / 10mbps = 10ms (처음 비트가 라인에 올라와서 -> 마지막 비트가 라인에 올라올 때까지가 100kbps) - 링크의 성능 (데이터가 라인에 올라오는 스피드) => 밑에 두개는 거리와 성능에 관계가 있는데, 얘는 라인의 성능에 관계가 있음 (좀 다름) - 그래서 얘가 중요 (**R bps / L-bit packet**) - 링크가 밀어내는데 걸리는 시간 - 그렇다고 해서 얘가 전송에 관련된거냐? 아니지. Propagation Delay까지 해야 가는거다.
+
+**S -> Router** D(Prop) = 1000m / 2\*10^8 m/s = 5ms (전파 지연) - 빛의 속도로 전파가 되기 때문에 Transmission보다는 빠르다 -> 네트워크의 거리와 관계 있음 (멀리 떨어져있으면 크다)
+
+**Router** D(Proc) = 0.1ms (처리 지연) - 라우터가 패킷을 받아서 처리하는 시간 (메모리 Access와 관련 있음) - 반도체 기술에 따라서 결정됨 (라우터의 성능) - 메모리 액세스를 초당 몇 개를 하느냐
+
+**Router** D(Q) - 자원에 비해 패킷이 순간적으로 많이 몰리거나 하면 큐잉이 발생함. 패킷이 몰려온다고 해서 얘네를 버릴 수는 없잖아. 예를 들어 들어오는 회선이 100mbps로 쏟아져들어오는데, 나는 10mbps로 밖에 못보내는데, 그럼 어떻게 해야할까? - 큐잉 딜레이가 발생함. - 얘는 누구에 의존하냐? 외부에서 들어오는 패킷의 속도에 의존함. (네트워크의 트래픽에 의존함) -> 예상할 수가 없음.
+
+총 소요시간 : D(Trans) \* 2 + D(Prop) \* 2 + D(Proc) = 10ms + 5ms + 0.1ms = 15.1ms
+
+Transmition Delay가 많이 언급이 되고, Queueing Delay는 가장 예측하기 어렵다.
+
+Queue에 패킷을 쭉 쌓다가, 어느정도 쌓이면 버린다. (drop을 한다)
+
+-> 얘랑 반대에 있는게 바로 **Circuit Switching** : 파이프같은 걸 하나 쭉 뚫고, 자원을 다른 사람이 쓸 수 없게, 해당 콜만 쓸 수 있게 (그걸 서킷) 하고, 그 서킷을 통해서 데이터를 보내는 것. (ex. 전화망) - dedicated resources (no sharing)
+-> 전화 망에서 다이얼을 돌리면 Request 가 가고, Accept가 오고, (call setup 과정이 필요) - 근데 packet switching에서는 call setup이 필요 없음. (그냥 보내면 됨) 단, tcp에서는 call setup이 필요함 (3-way handshake)
+
+그러면 Circuit Switching에서 링크의 자원을 어떻게 나눠 갖느냐 : FDM and TDM
+
+- FDM (Frequency Division Multiplexing) : 주파수를 나눠서 여러 채널을 만들어서 여러 채널을 동시에 전송하는 방식 (ex. 저주파는 TV, 고주파는 데이터)
+- TDM (Time Division Multiplexing) : 시간을 나눠서 여러 채널을 만들어서 여러 채널을 동시에 전송하는 방식 (ex. 1초를 8등분해서 8개의 채널을 만들어서 8개의 채널을 동시에 전송하는 방식)
+
+**Packet switching vs Circuit switching**
+
+N명의 유저가 1Gpbs Link 를 사용한다고 하자. 이 때, 각 유저는 100Mb/s 의 속도를 Active 상태일 때 쓴다고 한다. 그리고 전체 시간의 10%만 Active 되어 있다.
+
+- Circuit Switching : 라인 자체가 1Gbps이고, 인당 100Mbps를 쓰니까 10명만 쓸 수 있음.
+- Packet Switching : with 35 users, probability that more than 10 are active at the same time is less than 0.004
+  - 0.004? 4/10000의 확률로 100mbps를 못 쓴다. 이 외의 경우에는 100mbps를 쓸 수 있다.
+  - 0.004는 어떻게 나온거지? -> 가령 내가 n명을 수용했다고 하자. n명의 유저 중에 k명이 active할 확률은? 0.1이지. (0.1)^k _ (0.9)^(n-k) _ nCk (이항분포) => 이걸 계산하면 0.004가 나옴
+  - 이 때 k가 10명까지는 상관 없다.
+  - sigma (k=11 to 35) (0.1)^k _ (0.9)^(n-k) _ nCk = 0.004
+
+Is packet switching a slam dunk?
+-> 유저가 100% Active 되어 있는 환경이라면 circuit switching이 훨씬 유리
+-> 하지만, 실제로는 유저의 일부만 Active 되어 있는 경우가 많음. 그럼 packet switching이 훨씬 유리 (Bursty하다) -> 그렇다면 packet switching이 유리함
+
+- Packet Switching 방식을 쓰긴 쓰지만 Circuit Switching의 장점을 일부 활용할 수 있다면 얼마나 좋을까
+  - Virtual Circuit (가상 회선) : 패킷 스위칭을 쓰면서, 서킷 스위칭의 장점을 일부 활용할 수 있도록 만든 기술
+  - ATM (Asynchronous Transfer Mode) : 패킷 스위칭을 쓰면서, 서킷 스위칭의 장점을 일부 활용할 수 있도록 만든 기술 => 얘를 쓰면 좋겠다고 생각했는데, 결국은 안 쓰게 됨 (ex. 화상 전화같은 것들이 이런 기술을 쓰면 좋겠다고 생각했는데, 결국은 안 쓰게 됨)
+
+## Internet Structure: "A Network of Networks"
+
+Question : 전 세계의 access net들이 있을건데, 얘네를 어떻게 연결하지?
+
+- 모두 1:1로 연결된다? 작으면 가능할 텐데 크면 불가능하다.
+- 그럼 어떻게 연결해야할까? - Star 구조 : Global ISP 와 연결된다
+- 이렇게 ISP들이 전 세계에 있을거고, 지역별로도 ISP가 있을 것이고, 그러면 얘네를 어떻게 연결해야할까? => Hierarchical 구조로 연결한다.
+  - 지역별로 연결된 ISP들이 있을거고, 그걸 연결하는게 Regional ISP가 있을거고, 그걸 연결하는게 Global ISP가 있을거다.
+  - 구글같은거 보면 전 세계에 데이터 센터가 있을 것이고, 그걸 구글이 직접 연결하기도 한다
+  - 이런 계층들이 어떻게 되어 있나?
+    - Tier-1 ISP : Global ISP
+    - IXPs (Internet Exchange Points) : Tier-1 ISP들이 연결되는 지점
+    - Tier-2 ISP : Regional ISP
+    - Tier-3 ISP : Local ISP
+  - Content Provider Networks : 구글, 페이스북, 아마존 등등
+
+이런 식으로 네트워크 망이 입체적으로 구성되어 있다.
+
+## Performance : Loss, Delay, Throughput
+
+패킷 전송 중 지연과 손실은 왜 발생하나?
+
+- Delay : 4가지 종류가 있음
+  - Nodal Processing Delay : 라우터가 패킷을 받아서 처리하는 시간
+  - Queueing Delay : 큐잉이 발생하는 시간 - 가장 예상하기 어렵다. 공부할 것도 많고..
+  - Transmission Delay : 라인에 올라가는 시간
+  - Propagation Delay : 전파되는 시간 -> 거리에 관계
+- D(Nodal) = D(Proc) + D(Q) + D(trans) + D(prop)
+
+요 책에서 강조하는게 D(trans) 와 D(prop) 을 잘 구분하라는 것.
+
+- Queueing Theory (대기 이론) : 학부에서는 안 다루고, 대학원에서 한 학기과정으로 다루기도 함 - 딜레이값이 얼마나 될지를 구하고 계산하고 하는 것
+  - 대표 저서 : Kleinrock의 Queueing Systems (책 70p에 인터뷰가 있음)
+
+트래픽 부하 : traffic intensity = La/R (L : 패킷의 길이, a : 패킷의 도착율, R : 링크의 전송률)
+
+- La/R < 1 : 링크가 유휴 상태 (0에 가까우면 큐잉 딜레이가 작으니까 좋지)
+- La/R > 1 : 링크가 포화 상태 (1에 가까워질 수록 큐잉 딜레이가 늘어난다 -> 얼마나? 지수적으로) -> 1에 가까워지면 큐잉 딜레이가 무한대로 가게 된다.
+- La/R = 1 : 링크가 포화 상태
+
+**책에 14, 15, 16번이 Queueing Theory를 가볍게 들여다볼 수 있는 Example이니까, 요거를 다음 시간에 풀어볼 수 있게 준비하자. (숙제)**
+
+보통 사업을 한다고 하면 최대 0.6 내지 0.7 정도의 부하를 갖는 수준으로 설계를 한다. (그 이상으로 가면 지수적으로 부하가 늘어나기 때문에 안됨)
+
+-> 이렇게 되는 이유는 a가 deterministic 하지 않기 때문에 (랜덤하게 들어오기 때문에)
+
+### traceroute
+
+발신-수신 노드의 경로를 찾는 명령어
+
+```sh
+haenu@haenuui-MacBookPro ~ % traceroute hufs.ac.kr
+traceroute to hufs.ac.kr (203.232.224.3), 64 hops max, 52 byte packets
+ 1  172.16.0.1 (172.16.0.1)  81.849 ms  4.291 ms *
+ 2  203.232.228.254 (203.232.228.254)  66.410 ms  3.729 ms  4.142 ms
+ 3  203.232.224.240 (203.232.224.240)  8.948 ms  4.507 ms  4.596 ms
+ 4  203.232.224.3 (203.232.224.3)  7.054 ms  12.755 ms  4.499 ms
+```
+
+- IP 프로토콜의 TTL 필드를 이용해서 좀비 패킷을 없앤다.
+- ICMP - TTL expired in transit
+
+traceroute는 어떻게 만들지?
+
+- TTL 값을 1로 설정해서 패킷을 보낸다. (3개 보냄)
+- 그러면 첫번째 라우터가 패킷을 받고, TTL을 0으로 만들고, ICMP 메시지를 보낸다.
+- 그러면 그 ICMP 메시지를 받은 곳이 첫번째 라우터가 되고, 그 다음 라우터로 패킷을 보낸다. (TTL을 2로 설정해서)
+- 이렇게 반복해서 패킷을 보내고, ICMP 메시지를 받으면 그게 라우터가 되는 것
+- 그러면 제일 마지막에 도착하는 곳이 목적지가 되는 것 - 마지막을 어떻게 알지?
+  - Transport 계층에 가면 목적지의 포트번호를 알 수 있음
+
+**처리율 (Throughput)**
+
+- Throughput은 실질적으로 데이터를 보낼 수 있는 속도
+- Throughput은 minium 값으로 측정하는 것이 좋다. (bottleneck link)
+- 보통은 Access part가 bottleneck이 된다.
+
+## Security
+
+보안은 8장에 있는데, 이쪽에서는 그냥 잠깐 훑어지나가는 정도로 되어 있음.
+
+인터넷이 처음 시작되었을 떄는, '인터넷을 사용하는 사람들은 선한 사람'으로 생각하였음. 그래서 보안에 대한 고려를 하지 않았음.
+
+그러나, 인터넷이 발전하면서, 보안에 대한 고려가 필요해졌음. 그래서 각 레이어별로 여러 보안적인 고려가 들어가기 시작했다.
+
+그래서 생각해야하는 부분? 도대체 어떻게 공격을 할까? -> 이걸 가지고 어떻게 대처할지를 알아보자. -> 나중에는 구조적으로 어떤 공격이 오든 막으려면 어떻게 해야할까를 생각하게 된다.
+
+여기서는 공격 패턴만 몇 가지 살펴보자
+
+- Packet "Sniffing" : 엿듣기
+  - 와이어샤크 같은 프로그램을 쓰면 패킷을 엿듣을 수 있다. (그래서 패킷을 암호화해서 보내는 것이 중요하다)
+- IP Spoffing : IP 주소를 변조해서 보내는 것
+- DoS (Denial of Service) : 서비스 거부 공격
+  - TCP의 3-way handshake를 이용해서 공격하는 것 (Call setup request를 무지막지하게 보내면 ACK를 보낸다)
+  - DNS같은 경우는 UDP를 사용함. TCP를 쓰면 이런 공격에 취약해서?
+- Lines of Defense
+  - Authentication (종단점인증) : 내가 누군가와 통신을 하고 있는데, 그 사람이 진짜 그 사람인지 확인하는 것 (IPSec 같은걸 보면 종단점을 확인하는 과정을 거친다)
+  - Confidentiality (기밀성) : 아무나 살펴볼 수 없게 암호화를 하는 것
+  - integrity checks (무결성) : 내가 데이터를 받았는데, 이걸 조작할 수 없도록
+  - Access restrictions
+  - firewall
+
+이런 3가지를 확인해야 한다. 막연하게 "보안"!! 하는 것보다 이런 것들을 챙기면서 해야 한다.
+
+8장에서 이런 부분이 어떻게 구현되었는지 등을 알 수 있으니 참고하자.
+
+### Protocol Layers, Service Models
+
+왜 5개, 7개의 계층 같은 걸로 나눴는가?
+
+공항 서비스의 사례를 보면, 여러 서비스들을 계층으로 분리해서 제공한다.
+
+계층을 나누면 또 좋은 점 - 계층별로 인터페이스만 잘 짜두고 관리하면 유지보수하기에도 좋고 하다
+
+### 어떤 계층이 있지?
+
+- application
+- transport
+- network
+- link
+- physical
+
+capsulation -> decapsulation
+
+특정 계층에서 capsule화한 것을 동일 계층에서 decapsulate한다.
+
+라우터같은 걸 거치면서 캡슐화된 데이터가 막 바뀌고 그렇기도 한다
+
+근데 스위치는 안 바꾼다. 목적지 주소를 보고 바로 보내기 때문에
+
+아직 각 계층들을 살펴보진 않았지만, 계층별로 어떤 헤더들을 붙이는지? 이런 것들을 다음 시간에 살펴보면 될 것 같다.
