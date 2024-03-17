@@ -15,6 +15,9 @@ const config: DocsThemeConfig = {
       titleTemplate: "%s - Haenu Docs",
     };
   },
+  sidebar: {
+    defaultMenuCollapseLevel: 1,
+  },
 };
 
 export default config;
