@@ -3,3 +3,48 @@ import { Callout } from "nextra/components";
 # Chapter 2. 애플리케이션 계층
 
 <Callout>2024년 3월 20일 (수) 18:30 ~ 20:00</Callout>
+
+## Chapter Overview
+
+- Web and HTTP
+  - Web은 서비스고, Web을 구현한 프로토콜이 HTTP임.
+  - HTTP 형식에 맞게 요청과 응답을 주고 받는 것이 Web의 기본.
+- E-mail
+  - SMTP, POP3, IMAP
+  - SMTP (Simple Mail Transfer Protocol) : 메일을 보내는 프로토콜
+  - IMAP (Internet Message Access Protocol) : 메일을 읽는 프로토콜
+- DNS (Domain Name System)
+- P2P
+- Socket Programming
+  - TCP
+  - UDP
+  - 서버에게 a라는 문자를 보내면, 서버는 A라고 대문자로 만들어서 돌려준다. 이런 서비스를 제공하는 서버를 만들어보자. (이런 거를 해볼거임)
+    - 근데 이제 이걸 TCP랑 UDP랑 각각으로 구현해보고, 어떤 차이가 있는지 한 번 알아보자
+
+제일 중요한 건 HTTP, DNS 이고, Socket Programming은 훑어보는 정도로 하고 넘어가자. (나머지는 시간상 패스)
+
+전송 계층 (transport layer) 에서 어떤 프로토콜을 지원하냐에 따라서 어떤 걸 쓸 수 있는지가 정해지기 때문에 그거 보고 할 예정
+
+---
+
+Web app을 만든다면 web server software와 browser software를 만드는 것
+
+network core 부분은 신경쓰지 않아도 됨
+
+그래서 중간 부분은 minimalism 하게
+
+- server
+  - always on host
+  - permanent ip address
+  - often in data centers, for scaling
+- clients
+
+  - contact, communicate with server
+  - may be intermittently connected
+  - may have dynamic ip addresses
+  - do not communicate directly with each other
+  - examples: HTTP, IMAP, FTP
+
+---
+
+peer to peer (p2p)
