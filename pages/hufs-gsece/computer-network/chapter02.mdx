@@ -48,3 +48,217 @@ network core 부분은 신경쓰지 않아도 됨
 ---
 
 peer to peer (p2p)
+
+<Callout>2024년 3월 27일 (수) 18:30 ~ 20:00</Callout>
+
+## Creating a network app
+
+우리가 매일 접하는 것들 - 그게 바로 응용 계층
+
+응용 계층 안에서 더 들어가보면,
+
+process가 돌고 있고, process가 각자의 응용 서비스를 구현/구동한다.
+
+프로세스 간의 통신, 클라이언트 - 서버 간 통신 (P2P 구조에서는 양쪽 프로세스가 다 구동되고 있다.)
+
+그러면 메시지는 결국 아래 계층으로 내려가서 전달되어야 한다.
+
+그러면 아래 계층으로는 어떻게 내려가나? 바로 "소켓(Sockets)"이다.
+
+### Socket
+
+소켓은 데이터가 이동되는, 창구가 된다. '문'과 같다.
+
+그러면 application process 이외에 transport, network, link layer에 내려보낼 때는 믿고 내려보낸다.
+
+process별로 소켓을 가지고 있다.
+
+process는 소켓을 통해 transport layer로 데이터를 보낸다. 그리고 transport layer에서는 TCP, UDP 중 하나를 선택해서 데이터를 보낸다.
+
+그리고 결국 application layer로 데이터를 보내려면 socket number를 알아야 한다.
+
+### Addressing processes
+
+- to receive messages, process must have identifier
+- host device has unique 32-bit IP address
+
+특정 호스트에서 실행되고 있는 프로세스를 찾아가는데, 그 호스트의 IP 주소로 충분한가?
+
+그렇지 않다. 왜냐하면, 하나의 호스트에는 여러 개의 프로세스가 실행되고 있을 수 있기 때문이다.
+
+그래서 IP 주소와 포트 번호를 함께 사용한다.
+
+여기서 포트 번호는 identifier로 사용된다.
+
+---
+
+포트 번호는 TCP, UDP 즉 transport layer에서 사용한다.
+
+포트 번호는 TCP, UDP 헤더를 보면 Source Port와 Destination Port를 합쳐서 32비트로 구성되어 있다.
+
+그러면 각 포트는 16비트이고, 그렇기 때문에 0 ~ 65535까지 사용할 수 있다.
+
+그 중에 0~1000번까지는 Well-known port number로 사용되고 있다.
+
+그리고 Port에 대해서는 그 애플리케이션이 구동되는 Host 내에서만 Unique하면 된다.
+
+### Application Layer Protocol defines:
+
+- types of messages exchanged, e.g. request, response -> 서버와 클라이언트 간에는 request, response가 주고받는 메시지의 형태가 정해져 있다.
+- message syntax: what fields in messages & how fields are delineated -> 어떤 form (형태) 을 가지고 있다.
+- message semantics: meaning of information in fields -> 전송에 대한 rule이 정해져 있다.
+
+- Open Protocols: RFCs 에서 정의되어 있는 프로토콜
+  - e.g. HTTP, SMTP, POP3, IMAP, DNS
+- Proprietary Protocols: e.g. Skype, BitTorrent
+
+### What transport service does an app need?
+
+- Data integrity
+  - some apps require 100% reliable data transfer
+  - Other apps can tolerate some loss
+- Timing
+  - some apps require low delay to be effective
+- Throughput
+  - some apps require minimum amount of throughput to be effective
+  - Other apps make use of whatever throughput they get
+- Security
+  - encryption, data integrity, etc.
+
+---
+
+Streaming audio/video의 경우는 Delay Gitter (딜레이 지터?) 가 중요하다.
+-> 청크 10개 간다고 했을 때 첫 번째껀 금방 왔는데 두 번째꺼가 늦게 오면 끊기는 현상이 발생한다.
+
+### TCP vs UDP
+
+- TCP
+  - 신뢰적 전송 (reliable)
+  - 흐름 제어 (flow control)
+  - 혼잡 제어 (Congestion Control)
+  - 연결 지향 (Connection-oriented)
+  - 속도가 느리다
+- UDP
+  - Unreliable data transfer between sending and receiving process
+
+---
+
+UDP 프로토콜을 보면
+
+- Source Port : 어디서 보냈는지
+- Destination Port : 어떤 프로세스로 보낼 것인가
+- Length : UDP 헤더를 포함한 전체 길이
+- Checksum : error detection
+
+---
+
+그러면 과연 UDP는 왜 쓰지?
+-> 실시간 스트리밍 같은 경우에는 속도가 중요하다. 그래서 속도가 빠른 UDP를 사용한다.
+
+### Securing TCP
+
+- 기본 TCP & UDP Sockets : 암호화 미지원, 패스워드도 평문 전송
+
+그래서 TLS (Transport Layer Security) 를 사용한다.
+
+보안 조건
+
+- 기밀성 : Encrypted TCP Connections
+- 무결성 : Data Integrity
+- 종단점 인증 : End-point Authentication
+
+---
+
+TLS(SSL) and TCP/IP
+
+- Normal Application : Application - TCP - IP
+- Application with TLS : Application - TLS - TCP - IP
+
+Application이 평문을 내려보내면 TLS가 암호화를 하고 TCP로 보내고, TCP가 IP로 보내는 구조
+
+- TLS는 애플리케이션을 위한 API를 제공한다
+- C와 Java 등의 언어에서 각종 라이브러리/클래스 등을 이용할 수 있다
+
+## Web and HTTP
+
+### HTTP
+
+HyperText Transfer Protocol
+
+- Web's application layer protocol
+- client/server model
+
+### HTTP uses TCP
+
+1. TCP 연결 설정
+2. 메시지 교환
+3. TCP 연결 해제
+
+### HTTP 1.0
+
+- 비지속 연결 = 각 요청마다 새로운 TCP 연결을 생성
+- RTT (Round Trip Time) : 요청을 보내고 응답을 받는데 걸리는 시간
+  - RTT가 길어지면, 페이지 로딩 시간이 길어진다.
+  - HTTP 1.0은 2 RTT + 데이터 전송 시간이 걸린다.
+
+### HTTP 1.1
+
+- 지속 연결 = 하나의 TCP 연결을 통해 여러 요청을 보낼 수 있다.
+- 파이프라이닝 = 여러 요청을 동시에 보낼 수 있다.
+- HTTP 1.1은 1 RTT + (1 RTT + 데이터 전송 시간) \* 파일 수 만큼 걸린다.
+
+---
+
+### HTTP Message
+
+- Request
+  - GET /index.html HTTP/1.1
+  - Host: www.someschool.edu
+  - User-agent: Mozilla/4.0
+  - Connection: close
+- Response
+  - HTTP/1.1 200 OK
+  - Date: Tue, 18 Feb 2020 15:00:00 GMT
+  - Server: Apache/1.3.0 (Unix)
+  - Last-Modified: Mon, 17 Feb 2020 15:00:00 GMT
+  - Keep-Alive: timeout=15, max=100 (이게 지속 연결을 의미한다.)
+  - Content-Length: 6821
+  - Content-Type: text/html
+
+### HTTP Method
+
+GET, POST, HEAD, PUT, DELETE, TRACE, OPTIONS, CONNECT, PATCH, ...
+
+### HTTP Status Code
+
+- 1xx : Informational
+- 2xx : Success
+- 3xx : Redirection
+- 4xx : Client Error
+- 5xx : Server Error
+
+### Cookies
+
+- 원래 HTTP는 stateless protocol
+- 그래서 쿠키를 사용해서 상태를 유지한다.
+
+근데 Cookie가 매우 중요한 서비스에 많이 활용되기 때문에 유출되면 큰 문제가 발생할 수 있다.
+
+(현우 주) 그래서 보안을 위해 Secure, HttpOnly, SameSite, ...
+
+### Cache Server (Proxy Server)
+
+- 클라이언트가 요청한 데이터를 캐싱해서 저장해두고, 같은 요청이 오면 캐싱된 데이터를 보내준다.
+- 캐싱된 데이터가 변경되면, 캐시 서버는 변경된 데이터를 받아서 캐시를 업데이트한다.
+- 그리고 클라이언트에서도 캐시를 저장할 수 있다.
+
+### Conditional GET
+
+- 요건 304 이야기 (Not Modified)
+- If-Modified-Since : 이 날짜 이후로 변경된 데이터가 있으면 보내줘
+
+---
+
+<Callout>2024년 4월 3일 (수) 18:30 ~ 20:00</Callout>
+
+### HTTP 2
